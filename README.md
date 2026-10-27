@@ -15,13 +15,13 @@ and benchmarked side by side with one harness.
 ![FlexRIC](https://img.shields.io/badge/O--RAN-FlexRIC%20near--RT%20RIC-6a3d9a)
 ![Ubuntu](https://img.shields.io/badge/Ubuntu-26.04%20LTS-e95420?logo=ubuntu&logoColor=white)
 
-[What is this?](#-what-is-this) ·
-[Architecture](#%EF%B8%8F-architecture) ·
-[Quick start](#-quick-start) ·
-[Results](#-results) ·
-[OAI issues found](#-issues-found-in-the-oai-software) ·
-[Reproduce](#-reproduce-every-number) ·
-[Layout](#-repository-layout)
+[What is this?](#what-is-this) ·
+[Architecture](#architecture) ·
+[Quick start](#quick-start) ·
+[Results](#results) ·
+[OAI issues found](#issues-found-in-the-oai-software) ·
+[Reproduce](#reproduce-every-number) ·
+[Layout](#repository-layout)
 
 </div>
 
@@ -38,26 +38,26 @@ This repository answers those questions with a testbed you can rebuild yourself:
 
 | | What you get |
 |---|---|
-|  **5G core** | OAI CN5G v2.2.1 — NRF, AMF, SMF, UPF, AUSF, UDM, UDR, **PCF**, **NSSF** + MySQL, two network slices, 101 subscribers |
-|  **Platform A** | Docker Compose on one host, health-gated start-up |
-|  **Platform B** | 3-node Kubernetes cluster (kind) deployed from one Helm chart that mounts the **identical configuration** |
-|  **RAN** | UERANSIM (1–100 emulated UEs) **and** a containerized OAI gNB + NR-UE (RF simulator) |
-|  **O-RAN** | FlexRIC near-RT RIC connected to the gNB over **E2**, with a MAC/RLC/PDCP/GTP monitoring xApp |
-|  **Benchmarks** | One harness for both platforms: attach time, 1–100 UEs, latency, throughput, CPU/RAM, crash recovery |
-|  **Findings** | 10 issues in the OAI software, 4 fixed with patches included here |
+| **5G core** | OAI CN5G v2.2.1 — NRF, AMF, SMF, UPF, AUSF, UDM, UDR, **PCF**, **NSSF** + MySQL, two network slices, 101 subscribers |
+| **Platform A** | Docker Compose on one host, health-gated start-up |
+| **Platform B** | 3-node Kubernetes cluster (kind) deployed from one Helm chart that mounts the **identical configuration** |
+| **RAN** | UERANSIM (1–100 emulated UEs) **and** a containerized OAI gNB + NR-UE (RF simulator) |
+| **O-RAN** | FlexRIC near-RT RIC connected to the gNB over **E2**, with a MAC/RLC/PDCP/GTP monitoring xApp |
+| **Benchmarks** | One harness for both platforms: attach time, 1–100 UEs, latency, throughput, CPU/RAM, crash recovery |
+| **Findings** | 10 issues in the OAI software, 4 fixed with patches included here |
 
 > Everything runs on a laptop with **5 GiB RAM** (AMD Ryzen 5 5500U, Ubuntu 26.04 LTS).
 
 ---
 
-##  Architecture
+## Architecture
 
 ```mermaid
 flowchart TB
     subgraph PLAT["Deployment platforms — identical NF configuration"]
         direction LR
-        DC[" Docker Compose<br/>single host"]
-        K8S[" Kubernetes<br/>3-node kind + Helm"]
+        DC["Docker Compose<br/>single host"]
+        K8S["Kubernetes<br/>3-node kind + Helm"]
     end
 
     subgraph CORE["OAI 5G Core v2.2.1"]
@@ -87,7 +87,7 @@ flowchart TB
 ```
 
 <details>
-<summary><b> How the NFs are placed on the 3-node Kubernetes cluster</b></summary>
+<summary><b>How the NFs are placed on the 3-node Kubernetes cluster</b></summary>
 
 ```mermaid
 flowchart LR
@@ -126,10 +126,10 @@ flowchart LR
 > **Requirements:** Ubuntu 22.04+ (tested on 26.04), 4+ cores, ≥ 5 GiB RAM (+ swap), ~20 GB disk, internet access.
 
 <details open>
-<summary><b> 1: Prepare the host (once)</b></summary>
+<summary><b>Step 1: Prepare the host (once)</b></summary>
 
 ```bash
-git clone https://github.com/SHAHEER-D/Cloud-Native-Softwarization-of-an-Open-Source-5G-Core-Using-Docker-Kubernetes-UERANSIM-and-OAIgit oai-testbed
+git clone https://github.com/SHAHEER-D/Cloud-Native-Softwarization-of-an-Open-Source-5G-Core-Using-Docker-Kubernetes-UERANSIM-and-OAI.git oai-testbed
 cd oai-testbed
 sudo bash setup-host.sh          # Docker, Compose, SCTP module, IP forwarding, extra swap
 # log out and back in so your user can run docker without sudo
@@ -140,7 +140,7 @@ For Kubernetes you also need `kind`, `kubectl` and `helm` in your `PATH`.
 </details>
 
 <details>
-<summary><b> 2: Build the patched AMF and PCF images (~1 h on a laptop)</b></summary>
+<summary><b>Step 2: Build the patched AMF and PCF images (~1 h on a laptop)</b></summary>
 
 ```bash
 build/prepare-sources.sh         # clone OAI AMF/PCF v2.2.1 and apply patches/
@@ -148,12 +148,12 @@ build/build-patched.sh           # -> testbed/oai-amf:v2.2.1-fix, testbed/oai-pc
 ```
 
 Why? Without the patches the AMF cannot register with the NRF when the NSSF is enabled, and the PCF
-never sends heartbeats (see [issues](#-issues-found-in-the-oai-software)).
+never sends heartbeats (see [issues](#issues-found-in-the-oai-software)).
 
 </details>
 
 <details>
-<summary><b> 3: Run the 5G core with Docker Compose + UERANSIM</b></summary>
+<summary><b>Step 3: Run the 5G core with Docker Compose + UERANSIM</b></summary>
 
 ```bash
 docker compose -f core/docker-compose.yaml up -d --wait          # 11 containers, ~54 s
@@ -166,7 +166,7 @@ Try 100 UEs at once: `NUM_UE=100 docker compose -f ueransim/docker-compose.yaml 
 </details>
 
 <details>
-<summary><b> 4: Run the OAI gNB + NR-UE (RF simulator)</b></summary>
+<summary><b>Step 4: Run the OAI gNB + NR-UE (RF simulator)</b></summary>
 
 ```bash
 docker compose -f rfsim/docker-compose.yaml up -d
@@ -177,7 +177,7 @@ tools/soak_rfsim.sh 1800          # 30-minute stability test
 </details>
 
 <details>
-<summary><b> 5: Add the O-RAN near-RT RIC (FlexRIC) and xApps</b></summary>
+<summary><b>Step 5: Add the O-RAN near-RT RIC (FlexRIC) and xApps</b></summary>
 
 ```bash
 docker compose -f rfsim/docker-compose.yaml down
@@ -189,7 +189,7 @@ docker logs -f xapp-l2
 </details>
 
 <details>
-<summary><b> 6: Run the same core on a 3-node Kubernetes cluster</b></summary>
+<summary><b>Step 6: Run the same core on a 3-node Kubernetes cluster</b></summary>
 
 ```bash
 docker compose -f ueransim/docker-compose.yaml down; docker compose -f core/docker-compose.yaml down
@@ -202,7 +202,7 @@ Tear down: `k8s/deploy.sh teardown`
 </details>
 
 <details>
-<summary><b> 7: Benchmark both platforms</b></summary>
+<summary><b>Step 7: Benchmark both platforms</b></summary>
 
 ```bash
 python3 tools/bench.py compose                 # attach, load, latency, tput, resources, recovery, stale
@@ -216,7 +216,7 @@ Single tests: `python3 tools/bench.py k8s attach latency --reps 5`
 
 ---
 
-##  Results
+## Results
 
 Measured on one laptop (Ryzen 5 5500U, 5 GiB RAM) with the same configuration on both platforms.
 The raw measurements behind every number are in [`results/`](results/); [`tools/report.py`](tools/report.py) rebuilds the comparison from them.
@@ -245,7 +245,7 @@ xychart-beta
 <sub>Bars: Docker Compose (constant). Line: Kubernetes — faster on the first crash, then slowed by CrashLoopBackOff.</sub>
 
 <details>
-<summary><b> Scalability: 1–100 simultaneous UEs</b></summary>
+<summary><b>Scalability: 1–100 simultaneous UEs</b></summary>
 
 | UEs | Compose: all attached after | Compose: per-UE median | Kubernetes: all attached after | Kubernetes: per-UE median |
 |---:|---:|---:|---:|---:|
@@ -260,7 +260,7 @@ xychart-beta
 </details>
 
 <details>
-<summary><b> Crash recovery and orphaned sessions</b></summary>
+<summary><b>Crash recovery and orphaned sessions</b></summary>
 
 Time until a new UE gets a PDU session after the NF is killed (SIGKILL), three consecutive crashes:
 
@@ -287,7 +287,7 @@ xychart-beta
 </details>
 
 <details>
-<summary><b> OAI gNB stability and O-RAN monitoring</b></summary>
+<summary><b>OAI gNB stability and O-RAN monitoring</b></summary>
 
 **30-minute soak test** of the containerized OAI gNB + NR-UE (RF simulator, stock kernel):
 
@@ -309,7 +309,7 @@ downlink traffic, the RIC-measured MAC throughput was **10.39 Mbit/s** (the extr
 </details>
 
 <details>
-<summary><b> Estimated monthly cloud cost of a minimum 3-node cluster</b></summary>
+<summary><b>Estimated monthly cloud cost of a minimum 3-node cluster</b></summary>
 
 | Provider | Instances | Total (US$/month) |
 |---|---|---:|
@@ -330,7 +330,7 @@ Stress and failure testing exposed these issues.
 | # | Component | Issue | Effect | Status |
 |---|---|---|---|---|
 | 1 | AMF | With the NSSF enabled, registers to `/nf-instances` **without its instance ID** | AMF never registered; blocked SBI client causes intermittent UE rejects | [patch](patches/oai-amf-v2.2.1-nssf-nrf-registration-uri.patch) |
-| 2 | PCF | Task manager never started | No NRF heartbeats; PCF dropped from the NRF |  [patch](patches/oai-pcf-v2.2.1-nrf-heartbeat.patch) |
+| 2 | PCF | Task manager never started | No NRF heartbeats; PCF dropped from the NRF | [patch](patches/oai-pcf-v2.2.1-nrf-heartbeat.patch) |
 | 3 | PCF | Heartbeat body is not a JSON Patch array | NRF answers 400 | [patch](patches/oai-pcf-v2.2.1-nrf-heartbeat.patch) |
 | 4 | PCF | No re-registration after an NRF restart | PCF missing from NRF | open |
 | 5 | NRF | Subscriptions never expire, notifications are synchronous | **Core stalls on Kubernetes** (dead pod IPs) | open |
@@ -338,11 +338,11 @@ Stress and failure testing exposed these issues.
 | 7 | SMF/UPF | No PFCP restoration after SMF restart | ~1 s outage per orphaned session | open |
 | 8 | AMF | gNB disconnect with stale UE contexts | N2 blocked for > 90 s | open |
 | 9 | NR-UE | Rejects SST > 127 (TS 23.003 allows 0–255) | Needs a second slice | worked around |
-| 10 | Build | Pinned build2 0.17.0 gone; libodb 2.6 incompatible | Fresh PCF image builds fail |  [patch](patches/oai-common-build-odb-build2-pins.patch) |
+| 10 | Build | Pinned build2 0.17.0 gone; libodb 2.6 incompatible | Fresh PCF image builds fail | [patch](patches/oai-common-build-odb-build2-pins.patch) |
 
 ---
 
-##  Reproduce every number
+## Reproduce every number
 
 ```mermaid
 flowchart LR
@@ -383,7 +383,7 @@ flowchart LR
 
 ---
 
-##  Repository layout
+## Repository layout
 
 ```text
 setup-host.sh      one-time host preparation (sudo)
@@ -395,6 +395,7 @@ patches/           fixes for upstream OAI issues
 build/             prepare-sources.sh + build-patched.sh for the patched AMF/PCF images
 tools/             bench.py, report.py, soak_rfsim.sh, gen_db.py
 results/           raw measurements: compose/, k8s/ (CSV + JSON per test), rfsim-soak/ (30-min soak logs),
+                   rfsim-longrun/ (5 h 51 min uptime check),
                    oran/ (RIC/xApp logs, xApp SQLite database, iperf3 JSON), cold-start timings, run logs
 ```
 
@@ -426,11 +427,11 @@ results/           raw measurements: compose/, k8s/ (CSV + JSON per test), rfsim
 
 ---
 
-## ⚖️ License
+## License
 
 The testbed code in this repository is released under the [MIT License](LICENSE).
 
-##  Acknowledgements
+## Acknowledgements
 
 Built on [OpenAirInterface](https://openairinterface.org/) (5G core, RAN and FlexRIC),
 [UERANSIM](https://github.com/aligungr/UERANSIM), [kind](https://kind.sigs.k8s.io/) and [Helm](https://helm.sh/).
