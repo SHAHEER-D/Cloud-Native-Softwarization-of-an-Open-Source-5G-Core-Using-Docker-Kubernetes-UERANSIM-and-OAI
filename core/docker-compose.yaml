@@ -1,0 +1,220 @@
+# OAI 5G SA core (OAI CN5G v2.2.1) for the testbed: NRF, AMF, SMF, UPF, AUSF, UDM, UDR, PCF, NSSF,
+# MySQL and an external data-network container. Start-up is health-gated so no NF contacts the NRF
+# (or MySQL) before it is ready.
+#   docker compose -f core/docker-compose.yaml up -d
+
+x-nf: &nf
+  environment:
+    - TZ=Asia/Karachi
+  restart: unless-stopped
+  networks:
+    public_net: {}
+
+x-nf-health: &nf-health
+  # SBI port open = NF ready to serve (OAI binds the SBI to the container IP, not loopback)
+  test: ["CMD-SHELL", "bash -c \"</dev/tcp/$$(hostname -i | cut -d' ' -f1)/8080\" || exit 1"]
+  interval: 3s
+  timeout: 2s
+  retries: 40
+  start_period: 2s
+
+x-after-nrf: &after-nrf
+  oai-nrf:
+    condition: service_healthy
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:9.0
+    restart: unless-stopped
+    volumes:
+      - ./database/oai_db.sql:/docker-entrypoint-initdb.d/oai_db.sql:ro
+      - ./healthscripts/mysql-healthcheck.sh:/tmp/mysql-healthcheck.sh:ro
+    environment:
+      - TZ=Asia/Karachi
+      - MYSQL_DATABASE=oai_db
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=test
+      - MYSQL_ROOT_PASSWORD=linux
+    command: ["mysqld", "--performance-schema=OFF", "--innodb-buffer-pool-size=64M"]
+    healthcheck:
+      test: ["CMD-SHELL", "/bin/bash /tmp/mysql-healthcheck.sh"]
+      interval: 5s
+      timeout: 5s
+      retries: 60
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.131
+
+  oai-nrf:
+    <<: *nf
+    container_name: oai-nrf
+    image: oaisoftwarealliance/oai-nrf:v2.2.1
+    volumes:
+      - ./conf/config.yaml:/openair-nrf/etc/config.yaml:ro
+    healthcheck: *nf-health
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.130
+
+  oai-udr:
+    <<: *nf
+    container_name: oai-udr
+    image: oaisoftwarealliance/oai-udr:v2.2.1
+    volumes:
+      - ./conf/config.yaml:/openair-udr/etc/config.yaml:ro
+    depends_on:
+      <<: *after-nrf
+      mysql:
+        condition: service_healthy
+    healthcheck: *nf-health
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.136
+
+  oai-udm:
+    <<: *nf
+    container_name: oai-udm
+    image: oaisoftwarealliance/oai-udm:v2.2.1
+    volumes:
+      - ./conf/config.yaml:/openair-udm/etc/config.yaml:ro
+    depends_on:
+      <<: *after-nrf
+      oai-udr:
+        condition: service_healthy
+    healthcheck: *nf-health
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.137
+
+  oai-ausf:
+    <<: *nf
+    container_name: oai-ausf
+    image: oaisoftwarealliance/oai-ausf:v2.2.1
+    volumes:
+      - ./conf/config.yaml:/openair-ausf/etc/config.yaml:ro
+    depends_on:
+      <<: *after-nrf
+      oai-udm:
+        condition: service_healthy
+    healthcheck: *nf-health
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.138
+
+  oai-pcf:
+    <<: *nf
+    container_name: oai-pcf
+    image: testbed/oai-pcf:v2.2.1-fix   # patched: patches/oai-pcf-v2.2.1-start-task-manager.patch
+    volumes:
+      - ./conf/config.yaml:/openair-pcf/etc/config.yaml:ro
+      - ./policies:/openair-pcf/policies:ro
+    depends_on: *after-nrf
+    healthcheck: *nf-health
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.139
+
+  oai-nssf:
+    <<: *nf
+    container_name: oai-nssf
+    image: oaisoftwarealliance/oai-nssf:v2.2.1
+    volumes:
+      - ./conf/config.yaml:/openair-nssf/etc/config.yaml:ro
+      - ./conf/nssf_slice_config.yaml:/openair-nssf/etc/nssf_slice_config.yaml:ro
+    depends_on: *after-nrf
+    healthcheck: *nf-health
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.140
+
+  oai-amf:
+    <<: *nf
+    container_name: oai-amf
+    image: testbed/oai-amf:v2.2.1-fix   # patched: patches/oai-amf-v2.2.1-nssf-nrf-registration-uri.patch
+    expose:
+      - 38412/sctp
+    volumes:
+      - ./conf/config.yaml:/openair-amf/etc/config.yaml:ro
+    depends_on:
+      <<: *after-nrf
+      oai-ausf:
+        condition: service_healthy
+      oai-nssf:
+        condition: service_healthy
+    healthcheck: *nf-health
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.132
+
+  oai-smf:
+    <<: *nf
+    container_name: oai-smf
+    image: oaisoftwarealliance/oai-smf:v2.2.1
+    volumes:
+      - ./conf/config.yaml:/openair-smf/etc/config.yaml:ro
+    depends_on:
+      <<: *after-nrf
+      oai-amf:
+        condition: service_healthy
+      oai-pcf:
+        condition: service_healthy
+    healthcheck: *nf-health
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.133
+
+  oai-upf:
+    <<: *nf
+    container_name: oai-upf
+    image: oaisoftwarealliance/oai-upf:v2.2.1
+    volumes:
+      - ./conf/config.yaml:/openair-upf/etc/config.yaml:ro
+    depends_on:
+      <<: *after-nrf
+      oai-smf:
+        condition: service_healthy
+    cap_add: [NET_ADMIN, SYS_ADMIN]
+    cap_drop: [ALL]
+    privileged: true
+    healthcheck:
+      # the simple-switch UPF exposes no SBI server; ready once its GTP tunnel interface is up
+      test: ["CMD-SHELL", "ip link show tun0 | grep -q UP"]
+      interval: 3s
+      timeout: 2s
+      retries: 40
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.134
+
+  oai-ext-dn:
+    container_name: oai-ext-dn
+    image: oaisoftwarealliance/trf-gen-cn5g:noble
+    privileged: true
+    init: true
+    restart: unless-stopped
+    environment:
+      - UPF_FQDN=oai-upf
+      - UE_NETWORK=12.1.1.0/24
+      - USE_FQDN=yes
+    depends_on:
+      oai-upf:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "ip r | grep 12.1.1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.135
+
+networks:
+  public_net:
+    name: demo-oai-public-net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.70.128/26
+    driver_opts:
+      com.docker.network.bridge.name: demo-oai

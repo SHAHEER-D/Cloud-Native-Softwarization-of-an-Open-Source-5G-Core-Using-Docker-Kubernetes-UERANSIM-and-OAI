@@ -1,0 +1,47 @@
+diff --git a/src/oai_pcf/main.cpp b/src/oai_pcf/main.cpp
+index f454eb0..f7c651e 100644
+--- a/src/oai_pcf/main.cpp
++++ b/src/oai_pcf/main.cpp
+@@ -23,6 +23,7 @@
+ #include "pcf-api-server.hpp"
+ #include "pcf-http2-server.hpp"
+ #include "pcf_app.hpp"
++#include "task_manager.hpp"
+ #include "pcf_config.hpp"
+ #include "options.hpp"
+ #include "pistache/http.h"
+@@ -146,6 +147,13 @@ int main(int argc, char** argv) {
+   // Event subsystem
+   pcf_event ev;
+ 
++  // Task manager: drives the 1 ms task tick that the NRF heartbeat timer is
++  // subscribed to. Without it the PCF never sends heartbeats and the NRF
++  // drops its profile after the heartbeat timeout.
++  task_manager tm(ev);
++  std::thread task_manager_thread(&task_manager::run, &tm);
++  task_manager_thread.detach();
++
+   // PCF application layer
+   pcf_app_inst = std::make_unique<pcf_app>(ev);
+ 
+diff --git a/src/pcf_app/pcf_nrf.cpp b/src/pcf_app/pcf_nrf.cpp
+index e3c4556..27c9448 100644
+--- a/src/pcf_app/pcf_nrf.cpp
++++ b/src/pcf_app/pcf_nrf.cpp
+@@ -145,8 +145,14 @@ void pcf_nrf::trigger_nf_heartbeat_procedure(uint64_t /* ms */) {
+   patch_items.push_back(patch_item);
+   Logger::pcf_sbi().info("Sending NF heartbeat request");
+ 
+-  nlohmann::json j;
+-  to_json(j, patch_item);
++  // The heartbeat is a JSON Patch (RFC 6902, TS 29.510 NFUpdate): the body
++  // must be an array of patch operations, not a single operation object.
++  nlohmann::json j = nlohmann::json::array();
++  for (const auto& item : patch_items) {
++    nlohmann::json item_json;
++    to_json(item_json, item);
++    j.push_back(item_json);
++  }
+ 
+   auto request = http_client_inst->prepare_json_request(m_nrf_url, j.dump());
+   auto http_response =

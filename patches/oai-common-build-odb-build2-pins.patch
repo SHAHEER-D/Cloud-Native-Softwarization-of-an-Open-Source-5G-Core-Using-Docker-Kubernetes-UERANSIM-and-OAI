@@ -1,0 +1,33 @@
+diff --git a/installation/build_helper.odb b/installation/build_helper.odb
+index 8ef8c24..38388ad 100644
+--- a/installation/build_helper.odb
++++ b/installation/build_helper.odb
+@@ -15,7 +15,7 @@ install_odb() {
+ 
+   if [[ $prompt =~ [yY](es)* ]]
+   then
+-    C_URL=https://download.build2.org/0.17.0/build2-install-0.17.0.sh
++    C_URL=https://download.build2.org/0.18.1/build2-install-0.18.1.sh
+     echo "Install ODB runtime library from $C_URL"
+     pushd /tmp
+     if [[ $prompt =~ [yY](es)* ]]
+@@ -26,7 +26,7 @@ install_odb() {
+       curl -sSfO $C_URL
+       echo "download done"
+       sleep 4
+-      sh build2-install-0.17.0.sh --yes --no-bdep --no-modules --trust yes
++      sh build2-install-0.18.1.sh --yes --no-bdep --no-modules --trust yes
+       echo "build2 installation complete"
+       sleep 4
+       which bpkg
+@@ -45,8 +45,8 @@ install_odb() {
+       echo "Build odb runtime libraries"
+       bpkg add https://pkg.cppget.org/1/beta
+       bpkg fetch --trust-yes
+-      bpkg build libodb --yes
+-      bpkg build libodb-mysql --yes
++      bpkg build libodb/2.5.0 --yes      # pinned: generated *-odb.hxx in OAI sources need libodb 2.5
++      bpkg build libodb-mysql/2.5.0 --yes
+       echo "Install odb runtime libraries"
+       sleep 4
+       $SUDO bpkg install --all --recursive

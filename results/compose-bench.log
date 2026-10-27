@@ -1,0 +1,281 @@
+[02:51:52] compose: attach ...
+{
+ "registration_ms": {
+  "n": 20,
+  "mean": 38.25,
+  "median": 38.0,
+  "stdev": 5.47,
+  "min": 31.0,
+  "p95": 54.0,
+  "max": 54.0
+ },
+ "pdu_session_ms": {
+  "n": 20,
+  "mean": 221.3,
+  "median": 220.0,
+  "stdev": 4.88,
+  "min": 215.0,
+  "p95": 234.0,
+  "max": 234.0
+ },
+ "_duration_s": 120.6
+}
+[02:53:53] compose: load ...
+{
+ "1": {
+  "ues": 1,
+  "sessions_up": 1,
+  "success_rate": 1.0,
+  "timed_ues": 1,
+  "all_up_s": 0.26,
+  "per_ue_attach_ms": {
+   "n": 1,
+   "mean": 264.0,
+   "median": 264.0,
+   "stdev": 0.0,
+   "min": 264.0,
+   "p95": 264.0,
+   "max": 264.0
+  },
+  "amf_cpu_peak": 3.43,
+  "smf_cpu_peak": 2.85,
+  "timed_out": false
+ },
+ "10": {
+  "ues": 10,
+  "sessions_up": 10,
+  "success_rate": 1.0,
+  "timed_ues": 10,
+  "all_up_s": 0.33,
+  "per_ue_attach_ms": {
+   "n": 10,
+   "mean": 276.0,
+   "median": 276.5,
+   "stdev": 30.81,
+   "min": 230.0,
+   "p95": 323.0,
+   "max": 323.0
+  },
+  "amf_cpu_peak": 3.26,
+  "smf_cpu_peak": 2.92,
+  "timed_out": false
+ },
+ "25": {
+  "ues": 25,
+  "sessions_up": 25,
+  "success_rate": 1.0,
+  "timed_ues": 25,
+  "all_up_s": 2.59,
+  "per_ue_attach_ms": {
+   "n": 25,
+   "mean": 562.56,
+   "median": 605.0,
+   "stdev": 156.67,
+   "min": 73.0,
+   "p95": 685.0,
+   "max": 697.0
+  },
+  "amf_cpu_peak": 4.78,
+  "smf_cpu_peak": 2.71,
+  "timed_out": false
+ },
+ "50": {
+  "ues": 50,
+  "sessions_up": 50,
+  "success_rate": 1.0,
+  "timed_ues": 50,
+  "all_up_s": 2.75,
+  "per_ue_attach_ms": {
+   "n": 50,
+   "mean": 938.82,
+   "median": 1033.5,
+   "stdev": 314.44,
+   "min": 179.0,
+   "p95": 1215.0,
+   "max": 1232.0
+  },
+  "amf_cpu_peak": 9.99,
+  "smf_cpu_peak": 18.2,
+  "timed_out": false
+ },
+ "100": {
+  "ues": 100,
+  "sessions_up": 100,
+  "success_rate": 1.0,
+  "timed_ues": 100,
+  "all_up_s": 3.34,
+  "per_ue_attach_ms": {
+   "n": 100,
+   "mean": 1951.26,
+   "median": 2075.5,
+   "stdev": 557.84,
+   "min": 721.0,
+   "p95": 2726.0,
+   "max": 2790.0
+  },
+  "amf_cpu_peak": 41.95,
+  "smf_cpu_peak": 27.01,
+  "timed_out": false
+ },
+ "_duration_s": 87.2
+}
+[02:55:20] compose: latency ...
+{
+ "rtt_avg_ms": {
+  "n": 3,
+  "mean": 1.42,
+  "median": 1.4,
+  "stdev": 0.05,
+  "min": 1.38,
+  "p95": 1.47,
+  "max": 1.47
+ },
+ "loss_pct_max": 0.0,
+ "_duration_s": 30.5
+}
+[02:55:51] compose: tput ...
+{
+ "tcp_ul": {
+  "n": 3,
+  "mean": 220.76,
+  "median": 220.37,
+  "stdev": 1.05,
+  "min": 219.95,
+  "p95": 221.94,
+  "max": 221.94
+ },
+ "tcp_dl": {
+  "n": 3,
+  "mean": 236.61,
+  "median": 236.02,
+  "stdev": 2.41,
+  "min": 234.55,
+  "p95": 239.26,
+  "max": 239.26
+ },
+ "udp_dl_50_loss": {
+  "n": 3,
+  "mean": 0,
+  "median": 0,
+  "stdev": 0.0,
+  "min": 0,
+  "p95": 0,
+  "max": 0
+ },
+ "udp_dl_100_loss": {
+  "n": 3,
+  "mean": 0,
+  "median": 0,
+  "stdev": 0.0,
+  "min": 0,
+  "p95": 0,
+  "max": 0
+ },
+ "udp_dl_200_loss": {
+  "n": 3,
+  "mean": 0,
+  "median": 0,
+  "stdev": 0.0,
+  "min": 0,
+  "p95": 0,
+  "max": 0
+ },
+ "udp_dl_300_loss": {
+  "n": 3,
+  "mean": 0.05,
+  "median": 0.07,
+  "stdev": 0.03,
+  "min": 0.02,
+  "p95": 0.08,
+  "max": 0.08
+ },
+ "_duration_s": 218.6
+}
+[02:59:29] compose: resources ...
+{
+ "idle_total_cpu_pct": 18.5,
+ "idle_total_mem_mib": 259.8,
+ "load_total_cpu_pct": 111.6,
+ "load_total_mem_mib": 259.1,
+ "_duration_s": 35.5
+}
+[03:00:05] compose: recovery ...
+{
+ "oai-amf": {
+  "n": 3,
+  "mean": 9.1,
+  "median": 9.11,
+  "stdev": 0.02,
+  "min": 9.08,
+  "p95": 9.11,
+  "max": 9.11
+ },
+ "oai-smf": {
+  "n": 3,
+  "mean": 8.58,
+  "median": 8.59,
+  "stdev": 0.04,
+  "min": 8.54,
+  "p95": 8.62,
+  "max": 8.62
+ },
+ "oai-upf": {
+  "n": 3,
+  "mean": 13.53,
+  "median": 8.67,
+  "stdev": 8.43,
+  "min": 8.66,
+  "p95": 23.26,
+  "max": 23.26
+ },
+ "oai-nrf": {
+  "n": 3,
+  "mean": 9.11,
+  "median": 8.59,
+  "stdev": 0.9,
+  "min": 8.58,
+  "p95": 10.15,
+  "max": 10.15
+ },
+ "_duration_s": 209.9
+}
+[03:03:35] compose: stale ...
+{
+ "0": {
+  "n": 2,
+  "mean": 2.37,
+  "median": 2.37,
+  "stdev": 0.02,
+  "min": 2.36,
+  "p95": 2.39,
+  "max": 2.39
+ },
+ "25": {
+  "n": 2,
+  "mean": 2.39,
+  "median": 2.39,
+  "stdev": 0.02,
+  "min": 2.38,
+  "p95": 2.4,
+  "max": 2.4
+ },
+ "50": {
+  "n": 2,
+  "mean": 3.58,
+  "median": 3.58,
+  "stdev": 1.68,
+  "min": 2.39,
+  "p95": 4.76,
+  "max": 4.76
+ },
+ "100": {
+  "n": 2,
+  "mean": 2.41,
+  "median": 2.41,
+  "stdev": 0.01,
+  "min": 2.4,
+  "p95": 2.41,
+  "max": 2.41
+ },
+ "_duration_s": 171.4
+}

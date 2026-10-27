@@ -1,0 +1,192 @@
+[UTIL]: Setting the config -c file to /conf/flexric.conf
+[UTIL]: Setting path -p for the shared libraries to /usr/local/lib/flexric/
+[xAapp]: Initializing ... 
+[xApp]: nearRT-RIC IP Address = 192.168.70.160, PORT = 36422
+[E2 AGENT]: Opening plugin from path = /usr/local/lib/flexric/libmac_sm.so 
+[E2 AGENT]: Opening plugin from path = /usr/local/lib/flexric/librc_sm.so 
+[E2 AGENT]: Opening plugin from path = /usr/local/lib/flexric/libslice_sm.so 
+[E2 AGENT]: Opening plugin from path = /usr/local/lib/flexric/librlc_sm.so 
+[E2 AGENT]: Opening plugin from path = /usr/local/lib/flexric/libkpm_sm.so 
+[E2 AGENT]: Opening plugin from path = /usr/local/lib/flexric/libccc_sm.so 
+[CCC SM Agent]: Initialized with JSON-based encoding
+[E2 AGENT]: Opening plugin from path = /usr/local/lib/flexric/libtc_sm.so 
+[E2 AGENT]: Opening plugin from path = /usr/local/lib/flexric/libgtp_sm.so 
+[E2 AGENT]: Opening plugin from path = /usr/local/lib/flexric/libpdcp_sm.so 
+[NEAR-RIC]: Loading SM ID = 142 with def = MAC_STATS_V0 
+[NEAR-RIC]: Loading SM ID = 3 with def = ORAN-E2SM-RC 
+[NEAR-RIC]: Loading SM ID = 145 with def = SLICE_STATS_V0 
+[NEAR-RIC]: Loading SM ID = 143 with def = RLC_STATS_V0 
+[NEAR-RIC]: Loading SM ID = 2 with def = ORAN-E2SM-KPM 
+[NEAR-RIC]: Loading SM ID = 4 with def = ORAN-E2SM-CCC 
+[NEAR-RIC]: Loading SM ID = 146 with def = TC_STATS_V0 
+[NEAR-RIC]: Loading SM ID = 148 with def = GTP_STATS_V0 
+[NEAR-RIC]: Loading SM ID = 144 with def = PDCP_STATS_V0 
+[xApp]: DB filename = /tmp/xapp_db_1793061885564159 
+ [xApp]: E42 SETUP-REQUEST tx
+[E2AP]: Resending Setup Request after timeout
+[xApp]: E42 SETUP-RESPONSE rx 
+[xApp]: xApp ID = 9 
+Connected E2 nodes = 1
+Registered node 0 ran func id = 2 
+ Registered node 0 ran func id = 3 
+ Registered node 0 ran func id = 4 
+ Registered node 0 ran func id = 142 
+ Registered node 0 ran func id = 143 
+ Registered node 0 ran func id = 144 
+ Registered node 0 ran func id = 145 
+ Registered node 0 ran func id = 146 
+ Registered node 0 ran func id = 148 
+ [xApp]: E42 RIC SUBSCRIPTION REQUEST tx RAN_FUNC_ID 142 RIC_REQ_ID 1 
+[E2AP]: Resending Setup Request after timeout
+[xApp]: SUBSCRIPTION RESPONSE rx
+[xApp]: Successfully subscribed to RAN_FUNC_ID 142 
+[xApp]: E42 RIC SUBSCRIPTION REQUEST tx RAN_FUNC_ID 143 RIC_REQ_ID 2 
+MAC ind_msg latency = 1281 μs
+MAC ind_msg latency = 498 μs
+MAC ind_msg latency = 1914 μs
+MAC ind_msg latency = 622 μs
+MAC ind_msg latency = 749 μs
+[E2AP]: Resending Setup Request after timeout
+[xApp]: SUBSCRIPTION RESPONSE rx
+[xApp]: Successfully subscribed to RAN_FUNC_ID 143 
+[xApp]: E42 RIC SUBSCRIPTION REQUEST tx RAN_FUNC_ID 144 RIC_REQ_ID 3 
+RLC ind_msg latency = 761 μs
+MAC ind_msg latency = 325 μs
+RLC ind_msg latency = 198 μs
+MAC ind_msg latency = 431 μs
+RLC ind_msg latency = 784 μs
+MAC ind_msg latency = 461 μs
+RLC ind_msg latency = 425 μs
+MAC ind_msg latency = 237 μs
+RLC ind_msg latency = 673 μs
+MAC ind_msg latency = 186 μs
+[E2AP]: Resending Setup Request after timeout
+[xApp]: SUBSCRIPTION RESPONSE rx
+[xApp]: Successfully subscribed to RAN_FUNC_ID 144 
+[xApp]: E42 RIC SUBSCRIPTION REQUEST tx RAN_FUNC_ID 148 RIC_REQ_ID 4 
+PDCP ind_msg latency = 252 μs
+RLC ind_msg latency = 434 μs
+MAC ind_msg latency = 706 μs
+PDCP ind_msg latency = 420 μs
+RLC ind_msg latency = 902 μs
+MAC ind_msg latency = 211 μs
+PDCP ind_msg latency = 885 μs
+RLC ind_msg latency = 200 μs
+MAC ind_msg latency = 652 μs
+PDCP ind_msg latency = 557 μs
+RLC ind_msg latency = 346 μs
+MAC ind_msg latency = 567 μs
+PDCP ind_msg latency = 302 μs
+RLC ind_msg latency = 914 μs
+[E2AP]: Resending Setup Request after timeout
+[xApp]: SUBSCRIPTION RESPONSE rx
+[xApp]: Successfully subscribed to RAN_FUNC_ID 148 
+GTP ind_msg latency = 136 μs
+PDCP ind_msg latency = 3430 μs
+MAC ind_msg latency = 1191 μs
+RLC ind_msg latency = 233 μs
+GTP ind_msg latency = 485 μs
+PDCP ind_msg latency = 1371 μs
+MAC ind_msg latency = 1654 μs
+RLC ind_msg latency = 2521 μs
+GTP ind_msg latency = 662 μs
+PDCP ind_msg latency = 990 μs
+MAC ind_msg latency = 482 μs
+RLC ind_msg latency = 324 μs
+GTP ind_msg latency = 1991 μs
+PDCP ind_msg latency = 1423 μs
+MAC ind_msg latency = 1172 μs
+RLC ind_msg latency = 593 μs
+GTP ind_msg latency = 618 μs
+PDCP ind_msg latency = 736 μs
+MAC ind_msg latency = 457 μs
+RLC ind_msg latency = 607 μs
+GTP ind_msg latency = 1526 μs
+PDCP ind_msg latency = 896 μs
+MAC ind_msg latency = 311 μs
+RLC ind_msg latency = 1187 μs
+GTP ind_msg latency = 442 μs
+PDCP ind_msg latency = 479 μs
+MAC ind_msg latency = 581 μs
+RLC ind_msg latency = 446 μs
+GTP ind_msg latency = 1296 μs
+PDCP ind_msg latency = 1571 μs
+MAC ind_msg latency = 727 μs
+RLC ind_msg latency = 327 μs
+GTP ind_msg latency = 2036 μs
+PDCP ind_msg latency = 693 μs
+MAC ind_msg latency = 320 μs
+RLC ind_msg latency = 819 μs
+GTP ind_msg latency = 444 μs
+PDCP ind_msg latency = 330 μs
+MAC ind_msg latency = 285 μs
+RLC ind_msg latency = 233 μs
+GTP ind_msg latency = 1433 μs
+PDCP ind_msg latency = 373 μs
+MAC ind_msg latency = 2031 μs
+RLC ind_msg latency = 681 μs
+GTP ind_msg latency = 510 μs
+PDCP ind_msg latency = 966 μs
+MAC ind_msg latency = 759 μs
+RLC ind_msg latency = 916 μs
+GTP ind_msg latency = 345 μs
+PDCP ind_msg latency = 909 μs
+MAC ind_msg latency = 1793 μs
+RLC ind_msg latency = 326 μs
+GTP ind_msg latency = 3775 μs
+PDCP ind_msg latency = 517 μs
+MAC ind_msg latency = 801 μs
+RLC ind_msg latency = 726 μs
+GTP ind_msg latency = 376 μs
+PDCP ind_msg latency = 347 μs
+MAC ind_msg latency = 311 μs
+RLC ind_msg latency = 113 μs
+GTP ind_msg latency = 260 μs
+PDCP ind_msg latency = 217 μs
+MAC ind_msg latency = 618 μs
+RLC ind_msg latency = 410 μs
+GTP ind_msg latency = 478 μs
+PDCP ind_msg latency = 762 μs
+MAC ind_msg latency = 264 μs
+RLC ind_msg latency = 319 μs
+GTP ind_msg latency = 157 μs
+PDCP ind_msg latency = 441 μs
+
+[xApp]:Abruptly ending with signal number = 15
+[xApp]: E42 RIC_SUBSCRIPTION_DELETE_REQUEST tx RAN_FUNC_ID 142 RIC_REQ_ID 1 
+MAC ind_msg latency = 476 μs
+RLC ind_msg latency = 267 μs
+GTP ind_msg latency = 165 μs
+PDCP ind_msg latency = 509 μs
+MAC ind_msg latency = 358 μs
+RLC ind_msg latency = 335 μs
+GTP ind_msg latency = 166 μs
+PDCP ind_msg latency = 454 μs
+MAC ind_msg latency = 719 μs
+RLC ind_msg latency = 1001 μs
+GTP ind_msg latency = 207 μs
+PDCP ind_msg latency = 220 μs
+MAC ind_msg latency = 726 μs
+RLC ind_msg latency = 181 μs
+GTP ind_msg latency = 240 μs
+PDCP ind_msg latency = 182 μs
+MAC ind_msg latency = 521 μs
+RLC ind_msg latency = 143 μs
+GTP ind_msg latency = 630 μs
+PDCP ind_msg latency = 416 μs
+MAC ind_msg latency = 743 μs
+RLC ind_msg latency = 3378 μs
+[xApp]: E42 RIC_SUBSCRIPTION_DELETE_REQUEST tx RAN_FUNC_ID 143 RIC_REQ_ID 2 
+ric_req_id not found in the registry 
+ric_req_id = 1 not in the registry. Spuriosly can happen.
+[xApp]: E42 SUBSCRIPTION DELETE RESPONSE rx
+ric_req_id not found in the registry 
+[xApp]: E42 RIC_SUBSCRIPTION_DELETE_REQUEST tx RAN_FUNC_ID 144 RIC_REQ_ID 3 
+ric_req_id = 2 not in the registry. Spuriosly can happen.
+[xApp]: E42 SUBSCRIPTION DELETE RESPONSE rx
+[xApp]: E42 RIC_SUBSCRIPTION_DELETE_REQUEST tx RAN_FUNC_ID 148 RIC_REQ_ID 4 
+[xApp]: E42 SUBSCRIPTION DELETE RESPONSE rx
+ric_req_id not found in the registry 
+ric_req_id = 4 not in the registry. Spuriosly can happen.
+[xApp]: Successfully stopped 
+Test xApp run SUCCESSFULLY

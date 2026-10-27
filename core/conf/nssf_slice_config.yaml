@@ -1,0 +1,50 @@
+# NSSF slice configuration (TS 29.531 data model): two slices, both served by the single NRF.
+#   SST 222 / SD 00007B  - UERANSIM UEs (as in the paper)
+#   SST 1   / SD 000001  - eMBB slice used by the OAI NR-UE
+info:
+  version: 1.4.0
+  description: OAI-NSSF two-slice configuration for the testbed
+configuration:
+  nsiInfoList:
+    - snssai:
+        sst: 222
+        sd: '00007B'
+      nsiInformationList:
+        nrfId: http://oai-nrf:8080/nnrf-disc/v1/nf-instances
+        nsiId: '1'
+        nrfNfMgtUri: http://oai-nrf:8080/nnrf-nfm/v1/nf-instances
+    - snssai:
+        sst: 1
+        sd: '000001'
+      nsiInformationList:
+        nrfId: http://oai-nrf:8080/nnrf-disc/v1/nf-instances
+        nsiId: '2'
+        nrfNfMgtUri: http://oai-nrf:8080/nnrf-nfm/v1/nf-instances
+  taInfoList:
+    - tai:
+        plmnId:
+          mcc: '208'
+          mnc: '95'
+        tac: '40960'
+      supportedSnssaiList:
+        - sst: 222
+          sd: '00007B'
+        - sst: 1
+          sd: '000001'
+  amfInfoList:
+    - targetAmfSet: oai5gcn.mcc208.mnc95.regionid01.setid001.3gppnetwork.org
+      nrfAmfSet: http://oai-nrf:8080/nnrf-disc/v1/nf-instances
+      nrfAmfSetNfMgtUri: http://oai-nrf:8080/nnrf-nfm/v1/nf-instances
+      amfList:
+        - nfId: 405e8251-cc5a-45dd-a494-efb9eaf1cd58
+          supportedNssaiAvailabilityData:
+            tai:
+              plmnId:
+                mcc: 208
+                mnc: 95
+              tac: 40960
+            supportedSnssaiList:
+              - sst: 222
+                sd: '00007B'
+              - sst: 1
+                sd: '000001'

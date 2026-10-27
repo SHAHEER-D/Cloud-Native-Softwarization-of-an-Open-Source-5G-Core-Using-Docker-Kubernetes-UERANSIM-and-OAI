@@ -1,0 +1,37 @@
+# Whitelist: only the testbed code and configuration are published.
+/*
+!/.gitignore
+!/README.md
+!/LICENSE
+!/setup-host.sh
+!/core/
+!/ueransim/
+!/rfsim/
+!/k8s/
+!/tools/
+!/patches/
+!/build/
+/build/*
+!/build/prepare-sources.sh
+!/build/build-patched.sh
+# raw measurement outputs (written by the tools, not edited by hand)
+!/results/
+/results/*
+!/results/compose/
+!/results/k8s/
+!/results/rfsim-soak/
+!/results/oran/
+/results/oran/ric_l2_summary.json
+/results/oran/xapp_kpm.log
+!/results/compose-coldstart.txt
+!/results/k8s-coldstart.txt
+!/results/compose-bench.log
+!/results/compose-bench-3.log
+!/results/k8s-bench.log
+!/results/k8s-bench-2.log
+*.db-wal
+*.db-shm
+# generated at deploy / run time
+/k8s/oai-5gc/files/
+__pycache__/
+*.pyc

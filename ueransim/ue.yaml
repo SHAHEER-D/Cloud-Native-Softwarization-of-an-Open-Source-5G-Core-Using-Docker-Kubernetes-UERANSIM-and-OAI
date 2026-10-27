@@ -1,0 +1,34 @@
+# First UE; "nr-ue -n N" starts N UEs with consecutive IMSIs (…031, …032, …).
+supi: 'imsi-208950000000031'
+mcc: '208'
+mnc: '95'
+protectionScheme: 0
+homeNetworkPublicKey: '5a8d38864820197c3394b92613b20b91633cbd897119273bf8e4a6f4eec0a650'
+homeNetworkPublicKeyId: 1
+routingIndicator: '0000'
+key: '0C0A34601D4F07677303652C0462535B'
+op: '63bfa50ee6523365ff14c1f45f88737d'
+opType: 'OPC'
+amf: '8000'
+imei: '356938035643803'
+imeiSv: '4370816125816151'
+tunNetmask: '255.255.255.0'
+gnbSearchList:
+  - 192.168.70.141
+uacAic: {mps: false, mcs: false}
+uacAcc: {normalClass: 0, class11: false, class12: false, class13: false, class14: false, class15: false}
+sessions:
+  - type: 'IPv4'
+    apn: 'default'
+    slice:
+      sst: 222
+      sd: 0x00007b
+configured-nssai:
+  - sst: 222
+    sd: 0x00007b
+default-nssai:
+  - sst: 222
+    sd: 0x00007b
+integrity: {IA1: true, IA2: true, IA3: true}
+ciphering: {EA1: true, EA2: true, EA3: true}
+integrityMaxRate: {uplink: 'full', downlink: 'full'}

@@ -1,0 +1,59 @@
+# O-RAN near-RT RIC (FlexRIC) + monitoring xApps, with the OAI gNB connected over E2.
+# Start after the core:  docker compose -f rfsim/docker-compose-ric.yaml up -d
+x-flexric: &flexric
+  image: oaisoftwarealliance/oai-flexric:develop
+  volumes:
+    - ./flexric.conf:/conf/flexric.conf:ro
+
+services:
+  oai-flexric:
+    <<: *flexric
+    container_name: oai-flexric
+    command: ["stdbuf", "-o0", "nearRT-RIC", "-c", "/conf/flexric.conf"]
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep nearRT-RIC"]
+      interval: 3s
+      retries: 20
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.160
+
+  oai-gnb:
+    extends:
+      file: docker-compose.yaml
+      service: oai-gnb
+    volumes: !override
+      - ./gnb-e2.conf:/opt/oai-gnb/etc/gnb.conf:ro
+    depends_on:
+      oai-flexric:
+        condition: service_healthy
+
+  oai-nr-ue:
+    extends:
+      file: docker-compose.yaml
+      service: oai-nr-ue
+
+  # E2SM-KPM monitoring xApp (O-RAN KPM service model)
+  xapp-kpm:
+    <<: *flexric
+    container_name: xapp-kpm
+    profiles: ["xapps"]
+    command: ["stdbuf", "-o0", "/usr/local/flexric/xApp/c/monitor/xapp_kpm_moni", "-c", "/conf/flexric.conf"]
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.161
+
+  # MAC / RLC / PDCP / GTP statistics xApp
+  xapp-l2:
+    <<: *flexric
+    container_name: xapp-l2
+    profiles: ["xapps"]
+    command: ["stdbuf", "-o0", "/usr/local/flexric/xApp/c/monitor/xapp_gtp_mac_rlc_pdcp_moni", "-c", "/conf/flexric.conf"]
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.162
+
+networks:
+  public_net:
+    name: demo-oai-public-net
+    external: true

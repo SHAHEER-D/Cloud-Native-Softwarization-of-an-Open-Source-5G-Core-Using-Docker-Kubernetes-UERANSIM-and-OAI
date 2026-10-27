@@ -1,0 +1,84 @@
+{{- range $nf, $c := .Values.nfs }}
+{{- $patched := and $.Values.patchedImages (has $nf (list "amf" "pcf")) }}
+---
+# Headless service: DNS "oai-{{ $nf }}" resolves to the pod IP, as container names do in Compose.
+apiVersion: v1
+kind: Service
+metadata:
+  name: oai-{{ $nf }}
+spec:
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: oai-{{ $nf }}
+  ports:
+    - {name: sbi, port: 8080, protocol: TCP}
+    {{- if $c.sctp }}
+    - {name: n2, port: 38412, protocol: SCTP}
+    {{- end }}
+    {{- if eq $nf "upf" }}
+    - {name: n3, port: 2152, protocol: UDP}
+    - {name: n4, port: 8805, protocol: UDP}
+    {{- end }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oai-{{ $nf }}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app.kubernetes.io/name: oai-{{ $nf }}}
+  template:
+    metadata:
+      labels: {app.kubernetes.io/name: oai-{{ $nf }}}
+    spec:
+      nodeSelector: {oai/role: {{ $c.node }}}
+      containers:
+        - name: {{ $nf }}
+          image: {{ if $patched }}testbed/oai-{{ $nf }}:{{ $.Values.patchedTag }}{{ else }}oaisoftwarealliance/oai-{{ $nf }}:{{ $.Values.tag }}{{ end }}
+          imagePullPolicy: IfNotPresent
+          env:
+            - {name: TZ, value: {{ $.Values.timezone }}}
+          {{- if $c.privileged }}
+          securityContext: {privileged: true}
+          {{- end }}
+          resources: {{ toJson $.Values.resources }}
+          # same readiness criterion as the Compose health checks
+          readinessProbe:
+            {{- if $c.noSbi }}
+            exec: {command: ["sh", "-c", "ip link show tun0 | grep -q UP"]}
+            {{- else }}
+            tcpSocket: {port: 8080}
+            {{- end }}
+            periodSeconds: 3          # same polling interval as the Compose health checks
+            failureThreshold: 3
+          volumeMounts:
+            - {name: config, mountPath: /openair-{{ $nf }}/etc/config.yaml, subPath: config.yaml}
+            {{- if $c.nssf }}
+            - {name: config, mountPath: /openair-nssf/etc/nssf_slice_config.yaml, subPath: nssf_slice_config.yaml}
+            {{- end }}
+            {{- if $c.policies }}
+            - {name: policies, mountPath: /openair-pcf/policies}
+            {{- end }}
+      {{- if ne $nf "nrf" }}
+      initContainers:
+        # start-up ordering (the NRF race condition): wait until the NRF answers
+        - name: wait-nrf
+          image: busybox:1.36
+          command: ["sh", "-c", "until nc -z -w1 oai-nrf 8080; do sleep 1; done"]
+      {{- end }}
+      volumes:
+        - name: config
+          configMap: {name: oai-config}
+        {{- if $c.policies }}
+        - name: policies
+          configMap:
+            name: oai-pcf-policies
+            items:
+            {{- range $path, $_ := $.Files.Glob "files/policies/*/*.yaml" }}
+            {{- $rel := $path | trimPrefix "files/policies/" }}
+              - {key: {{ $rel | replace "/" "__" }}, path: {{ $rel }}}
+            {{- end }}
+        {{- end }}
+{{- end }}

@@ -1,0 +1,79 @@
+# UERANSIM gNB + UE(s) as pods. Addresses are resolved at start-up because UERANSIM accepts
+# only IP addresses in its configuration (the same gnb.yaml / ue.yaml as the Compose setup).
+apiVersion: v1
+kind: Service
+metadata:
+  name: ueransim-gnb
+spec:
+  clusterIP: None
+  selector: {app.kubernetes.io/name: ueransim-gnb}
+  ports:
+    - {name: rls, port: 4997, protocol: UDP}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ueransim-gnb
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app.kubernetes.io/name: ueransim-gnb}
+  template:
+    metadata:
+      labels: {app.kubernetes.io/name: ueransim-gnb}
+    spec:
+      nodeSelector: {oai/role: control-nfs}
+      containers:
+        - name: gnb
+          image: testbed/ueransim:v3.3.0
+          imagePullPolicy: Never
+          env:
+            - name: POD_IP
+              valueFrom: {fieldRef: {fieldPath: status.podIP}}
+          command: ["sh", "-c"]
+          args:
+            - |
+              until AMF=$(getent hosts oai-amf | awk '{print $1}') && [ -n "$AMF" ]; do sleep 1; done
+              sed -e "s/192.168.70.141/$POD_IP/g" -e "s/192.168.70.132/$AMF/" /conf/gnb.yaml > /tmp/gnb.yaml
+              exec nr-gnb -c /tmp/gnb.yaml
+          securityContext:
+            capabilities: {add: [NET_ADMIN]}
+          volumeMounts:
+            - {name: conf, mountPath: /conf}
+      volumes:
+        - name: conf
+          configMap: {name: ueransim-conf}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ueransim-ue
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector:
+    matchLabels: {app.kubernetes.io/name: ueransim-ue}
+  template:
+    metadata:
+      labels: {app.kubernetes.io/name: ueransim-ue}
+    spec:
+      nodeSelector: {oai/role: control-nfs}
+      containers:
+        - name: ue
+          image: testbed/ueransim:v3.3.0
+          imagePullPolicy: Never
+          env:
+            - {name: NUM_UE, value: "1"}
+          command: ["sh", "-c"]
+          args:
+            - |
+              until GNB=$(getent hosts ueransim-gnb | awk '{print $1}') && [ -n "$GNB" ]; do sleep 1; done
+              sed -e "s/192.168.70.141/$GNB/" /conf/ue.yaml > /tmp/ue.yaml
+              exec nr-ue -c /tmp/ue.yaml -n "$NUM_UE"
+          securityContext:
+            privileged: true          # creates uesimtun interfaces (needs /dev/net/tun)
+          volumeMounts:
+            - {name: conf, mountPath: /conf}
+      volumes:
+        - name: conf
+          configMap: {name: ueransim-conf}

@@ -1,0 +1,3 @@
+k8s cold start run 1: 16.863550785 s
+k8s cold start run 2: 16.873915758 s
+k8s cold start run 3: 20.891324032 s

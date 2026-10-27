@@ -1,0 +1,15 @@
+mcc: '208'
+mnc: '95'
+nci: '0x000000010'
+idLength: 32
+tac: 40960            # 0xa000
+linkIp: 192.168.70.141
+ngapIp: 192.168.70.141
+gtpIp: 192.168.70.141
+amfConfigs:
+  - address: 192.168.70.132
+    port: 38412
+slices:
+  - sst: 222
+    sd: 0x00007b
+ignoreStreamIds: true

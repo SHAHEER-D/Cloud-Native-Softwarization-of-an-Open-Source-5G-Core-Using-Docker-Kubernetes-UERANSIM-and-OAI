@@ -1,0 +1,26 @@
+{
+ "packets_tx": 1799,
+ "packets_rx": 1799,
+ "loss_pct": 0.0,
+ "rtt_ms": {
+  "mean": 28.16,
+  "median": 22.2,
+  "p95": 35.8,
+  "max": 381.0
+ },
+ "longest_outage_s": 0,
+ "containers_running_throughout": true,
+ "restart_counts": {
+  "oai-gnb": 0,
+  "oai-nr-ue": 0
+ },
+ "iperf_dl_mbps": [
+  27.3,
+  26.6,
+  26.6,
+  26.2,
+  40.1,
+  26.3
+ ],
+ "iperf_failures": 0
+}

@@ -1,0 +1,18 @@
+diff --git a/src/amf-app/amf_app.cpp b/src/amf-app/amf_app.cpp
+index ef4964d..03b09bd 100644
+--- a/src/amf-app/amf_app.cpp
++++ b/src/amf-app/amf_app.cpp
+@@ -2687,7 +2687,12 @@ void amf_app::get_nrfs(std::unordered_set<std::string>& nrfs) {
+               from_json(
+                   authorized_network_slice_info["nsiInformation"],
+                   nsi_information);
+-              nrfs.insert(nsi_information.getNrfNfMgtUri());
++              // nrfNfMgtUri is the NRF's nf-instances collection; the
++              // registration resource is .../nf-instances/{nfInstanceId}
++              // (TS 29.510), as built in the non-NSSF branch below.
++              std::string nrf_uri = nsi_information.getNrfNfMgtUri();
++              if (!nrf_uri.empty() && nrf_uri.back() != '/') nrf_uri += "/";
++              nrfs.insert(nrf_uri + amf_instance_id);
+             } catch (std::exception& e) {
+               Logger::amf_app().warn(
+                   "Could not parse NSI Information from Json");

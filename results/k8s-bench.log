@@ -1,0 +1,250 @@
+[03:44:13] k8s: attach ...
+{
+ "registration_ms": {
+  "n": 20,
+  "mean": 31.0,
+  "median": 30.5,
+  "stdev": 1.95,
+  "min": 28.0,
+  "p95": 36.0,
+  "max": 36.0
+ },
+ "pdu_session_ms": {
+  "n": 20,
+  "mean": 224.25,
+  "median": 224.5,
+  "stdev": 3.37,
+  "min": 217.0,
+  "p95": 230.0,
+  "max": 230.0
+ },
+ "_duration_s": 120.0
+}
+[03:46:13] k8s: load ...
+{
+ "1": {
+  "ues": 1,
+  "sessions_up": 1,
+  "success_rate": 1.0,
+  "timed_ues": 1,
+  "all_up_s": 0.26,
+  "per_ue_attach_ms": {
+   "n": 1,
+   "mean": 259.0,
+   "median": 259.0,
+   "stdev": 0.0,
+   "min": 259.0,
+   "p95": 259.0,
+   "max": 259.0
+  },
+  "amf_cpu_peak": 0.6,
+  "smf_cpu_peak": 0.5,
+  "timed_out": false
+ },
+ "10": {
+  "ues": 10,
+  "sessions_up": 10,
+  "success_rate": 1.0,
+  "timed_ues": 10,
+  "all_up_s": 2.76,
+  "per_ue_attach_ms": {
+   "n": 10,
+   "mean": 294.7,
+   "median": 292.5,
+   "stdev": 36.67,
+   "min": 244.0,
+   "p95": 350.0,
+   "max": 350.0
+  },
+  "amf_cpu_peak": 0.6,
+  "smf_cpu_peak": 0.5,
+  "timed_out": false
+ },
+ "25": {
+  "ues": 25,
+  "sessions_up": 25,
+  "success_rate": 1.0,
+  "timed_ues": 25,
+  "all_up_s": 2.6,
+  "per_ue_attach_ms": {
+   "n": 25,
+   "mean": 702.28,
+   "median": 758.0,
+   "stdev": 206.19,
+   "min": 68.0,
+   "p95": 871.0,
+   "max": 885.0
+  },
+  "amf_cpu_peak": 1.1,
+  "smf_cpu_peak": 1.0,
+  "timed_out": false
+ },
+ "50": {
+  "ues": 50,
+  "sessions_up": 50,
+  "success_rate": 1.0,
+  "timed_ues": 50,
+  "all_up_s": 2.81,
+  "per_ue_attach_ms": {
+   "n": 50,
+   "mean": 1133.06,
+   "median": 1270.5,
+   "stdev": 405.49,
+   "min": 227.0,
+   "p95": 1500.0,
+   "max": 1531.0
+  },
+  "amf_cpu_peak": 1.1,
+  "smf_cpu_peak": 2.5,
+  "timed_out": false
+ },
+ "100": {
+  "ues": 100,
+  "sessions_up": 0,
+  "success_rate": 0.0,
+  "timed_ues": 0,
+  "all_up_s": null,
+  "per_ue_attach_ms": {
+   "n": 0
+  },
+  "amf_cpu_peak": 6.0,
+  "smf_cpu_peak": 3.5,
+  "timed_out": true
+ },
+ "_duration_s": 396.1
+}
+[03:52:49] k8s: latency ...
+{
+ "rtt_avg_ms": {
+  "n": 3,
+  "mean": 1.69,
+  "median": 1.72,
+  "stdev": 0.08,
+  "min": 1.59,
+  "p95": 1.75,
+  "max": 1.75
+ },
+ "loss_pct_max": 0.0,
+ "_duration_s": 30.9
+}
+[03:53:20] k8s: tput ...
+{
+ "tcp_ul": {
+  "n": 3,
+  "mean": 221.96,
+  "median": 221.97,
+  "stdev": 0.11,
+  "min": 221.84,
+  "p95": 222.05,
+  "max": 222.05
+ },
+ "tcp_dl": {
+  "n": 3,
+  "mean": 191.11,
+  "median": 189.05,
+  "stdev": 5.59,
+  "min": 186.84,
+  "p95": 197.44,
+  "max": 197.44
+ },
+ "udp_dl_50_loss": {
+  "n": 3,
+  "mean": 0,
+  "median": 0,
+  "stdev": 0.0,
+  "min": 0,
+  "p95": 0,
+  "max": 0
+ },
+ "udp_dl_100_loss": {
+  "n": 3,
+  "mean": 0,
+  "median": 0,
+  "stdev": 0.0,
+  "min": 0,
+  "p95": 0,
+  "max": 0
+ },
+ "udp_dl_200_loss": {
+  "n": 3,
+  "mean": 0.01,
+  "median": 0,
+  "stdev": 0.01,
+  "min": 0,
+  "p95": 0.02,
+  "max": 0.02
+ },
+ "udp_dl_300_loss": {
+  "n": 3,
+  "mean": 0.15,
+  "median": 0.14,
+  "stdev": 0.03,
+  "min": 0.12,
+  "p95": 0.18,
+  "max": 0.18
+ },
+ "_duration_s": 219.9
+}
+[03:56:59] k8s: resources ...
+iperf3: error - unable to connect to server - server may have stopped running or use a different port, firewall issue, etc.: Connection refused
+command terminated with exit code 1
+{
+ "idle_total_cpu_pct": 59.9,
+ "idle_total_mem_mib": 259.0,
+ "load_total_cpu_pct": 73.4,
+ "load_total_mem_mib": 257.0,
+ "_duration_s": 15.2
+}
+[03:57:15] k8s: recovery ...
+{
+ "oai-amf": {
+  "n": 3,
+  "mean": 14.87,
+  "median": 15.15,
+  "stdev": 10.48,
+  "min": 4.26,
+  "p95": 25.21,
+  "max": 25.21
+ },
+ "oai-smf": {
+  "n": 3,
+  "mean": 17.94,
+  "median": 18.71,
+  "stdev": 13.21,
+  "min": 4.37,
+  "p95": 30.75,
+  "max": 30.75
+ },
+ "oai-upf": {
+  "n": 3,
+  "mean": 21.77,
+  "median": 19.86,
+  "stdev": 13.33,
+  "min": 9.5,
+  "p95": 35.95,
+  "max": 35.95
+ },
+ "oai-nrf": {
+  "n": 3,
+  "mean": 31.68,
+  "median": 31.44,
+  "stdev": 11.53,
+  "min": 20.27,
+  "p95": 43.33,
+  "max": 43.33
+ },
+ "_duration_s": 362.1
+}
+[04:03:17] k8s: stale ...
+{
+ "0": {
+  "n": 2,
+  "mean": 3.07,
+  "median": 3.07,
+  "stdev": 0.01,
+  "min": 3.07,
+  "p95": 3.07,
+  "max": 3.07
+ },
+ "_duration_s": 2574.8
+}

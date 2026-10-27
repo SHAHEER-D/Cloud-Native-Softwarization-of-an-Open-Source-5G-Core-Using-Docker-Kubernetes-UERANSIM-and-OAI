@@ -1,0 +1,12 @@
+# 3-node kind cluster: 1 control plane + 2 workers (the topology proposed in the paper, Fig. 4).
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: oai
+nodes:
+  - role: control-plane
+  - role: worker
+    labels: {oai/role: control-nfs}     # NRF, AMF, SMF, PCF, NSSF, UERANSIM
+  - role: worker
+    labels: {oai/role: data-nfs}        # UPF, AUSF, UDM, UDR, MySQL, traffic server
+networking:
+  podSubnet: 10.244.0.0/16

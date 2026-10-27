@@ -1,0 +1,33 @@
+# Images pinned to the same versions as the Docker Compose deployment.
+# amf/pcf use the patched builds (see patches/) when patchedImages is true.
+patchedImages: true
+tag: v2.2.1
+patchedTag: v2.2.1-fix
+
+# NF -> node role (kind node label oai/role). Mirrors Fig. 4 of the paper.
+nfs:
+  nrf:  {node: control-nfs}
+  amf:  {node: control-nfs, sctp: true}
+  smf:  {node: control-nfs}
+  pcf:  {node: control-nfs, policies: true}
+  nssf: {node: control-nfs, nssf: true}
+  ausf: {node: data-nfs}
+  udm:  {node: data-nfs}
+  udr:  {node: data-nfs}
+  upf:  {node: data-nfs, privileged: true, noSbi: true}
+
+# resource requests/limits per NF (used for the Table I sizing check)
+resources:
+  requests: {cpu: 50m, memory: 32Mi}
+  limits: {cpu: "1", memory: 256Mi}
+
+mysql:
+  image: mysql:9.0
+  storage: 1Gi           # PVC; Table I sizes 30 GiB for production subscriber data
+  node: data-nfs
+
+trafficServer:
+  image: oaisoftwarealliance/trf-gen-cn5g:noble
+  node: data-nfs
+
+timezone: Asia/Karachi

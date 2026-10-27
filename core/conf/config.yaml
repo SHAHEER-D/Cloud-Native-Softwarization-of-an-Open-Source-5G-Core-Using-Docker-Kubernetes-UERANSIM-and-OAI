@@ -1,0 +1,161 @@
+# OAI 5GC configuration shared by all NFs (OAI CN5G v2.2.1).
+# Derived from oai-cn5g-fed docker-compose/conf/basic_nrf_config.yaml, with PCF and NSSF enabled
+# and two slices: SST 222 / SD 0x00007B (UERANSIM UEs, as in the paper) and SST 1 / SD 0x000001
+# (eMBB, used by the OAI NR-UE, which only accepts SST 0-127). DNN "default" on both.
+
+log_level:
+  general: info
+
+register_nf:
+  general: yes
+
+http_version: 2
+
+nfs:
+  amf:
+    host: oai-amf
+    sbi: {port: 8080, api_version: v1, interface_name: eth0}
+    n2: {interface_name: eth0, port: 38412}
+  smf:
+    host: oai-smf
+    sbi: {port: 8080, api_version: v1, interface_name: eth0}
+    n4: {interface_name: eth0, port: 8805}
+  upf:
+    host: oai-upf
+    sbi: {port: 8080, api_version: v1, interface_name: eth0}
+    n3: {interface_name: eth0, port: 2152}
+    n4: {interface_name: eth0, port: 8805}
+    n6: {interface_name: eth0}
+    n9: {interface_name: eth0, port: 2152}
+  udm:
+    host: oai-udm
+    sbi: {port: 8080, api_version: v1, interface_name: eth0}
+  udr:
+    host: oai-udr
+    sbi: {port: 8080, api_version: v1, interface_name: eth0}
+  ausf:
+    host: oai-ausf
+    sbi: {port: 8080, api_version: v1, interface_name: eth0}
+  pcf:
+    host: oai-pcf
+    sbi: {port: 8080, api_version: v1, interface_name: eth0}
+  nssf:
+    host: oai-nssf
+    sbi: {port: 8080, api_version: v1, interface_name: eth0}
+  nrf:
+    host: oai-nrf
+    sbi: {port: 8080, api_version: v1, interface_name: eth0}
+
+database:
+  host: mysql
+  user: test
+  type: mysql
+  password: test
+  database_name: oai_db
+  generate_random: true
+  connection_timeout: 300
+
+snssais:
+  - &slice_222
+    sst: 222
+    sd: 00007B
+  - &slice_1
+    sst: 1
+    sd: 000001
+
+amf:
+  amf_name: "OAI-AMF"
+  support_features_options:
+    enable_simple_scenario: no
+    enable_nssf: yes              # slice selection via the NSSF (TS 29.531)
+    enable_smf_selection: yes
+  relative_capacity: 30
+  statistics_timer_interval: 20
+  emergency_support: false
+  served_guami_list:
+    - mcc: 208
+      mnc: 95
+      amf_region_id: 01
+      amf_set_id: 001
+      amf_pointer: 01
+  plmn_support_list:
+    - mcc: 208
+      mnc: 95
+      tac: 0xa000
+      nssai:
+        - *slice_222
+        - *slice_1
+  # preference order: the AMF selects the first one the UE supports; NIA0 (null integrity) is
+  # rejected by standards-compliant UEs outside emergency sessions (TS 33.501)
+  supported_integrity_algorithms: ["NIA2", "NIA1", "NIA0"]
+  supported_encryption_algorithms: ["NEA2", "NEA1", "NEA0"]
+
+smf:
+  ue_mtu: 1500
+  support_features:
+    use_local_subscription_info: no   # session subscription from UDM
+    use_local_pcc_rules: no           # policies from the PCF (N7)
+  upfs:
+    - host: oai-upf
+      config:
+        enable_usage_reporting: no
+  ue_dns:
+    primary_ipv4: "8.8.8.8"
+    primary_ipv6: "2001:4860:4860::8888"
+    secondary_ipv4: "1.1.1.1"
+    secondary_ipv6: "2001:4860:4860::8888"
+  ims:
+    pcscf_ipv4: "127.0.0.1"
+    pcscf_ipv6: "fe80::7915:f408:1787:db8b"
+  smf_info:
+    sNssaiSmfInfoList:
+      - sNssai: *slice_222
+        dnnSmfInfoList:
+          - dnn: "default"
+      - sNssai: *slice_1
+        dnnSmfInfoList:
+          - dnn: "default"
+  local_subscription_infos:
+    - single_nssai: *slice_222
+      dnn: "default"
+      qos_profile:
+        5qi: 9
+        session_ambr_ul: "200Mbps"
+        session_ambr_dl: "400Mbps"
+    - single_nssai: *slice_1
+      dnn: "default"
+      qos_profile:
+        5qi: 9
+        session_ambr_ul: "200Mbps"
+        session_ambr_dl: "400Mbps"
+
+upf:
+  support_features:
+    enable_bpf_datapath: no
+    enable_snat: yes
+  remote_n6_gw: localhost
+  smfs:
+    - host: oai-smf
+  upf_info:
+    sNssaiUpfInfoList:
+      - sNssai: *slice_222
+        dnnUpfInfoList:
+          - dnn: "default"
+      - sNssai: *slice_1
+        dnnUpfInfoList:
+          - dnn: "default"
+
+pcf:
+  local_policy:
+    policy_decisions_path: /openair-pcf/policies/policy_decisions
+    pcc_rules_path: /openair-pcf/policies/pcc_rules
+    traffic_rules_path: /openair-pcf/policies/traffic_rules
+    qos_data_path: /openair-pcf/policies/qos_data
+
+nssf:
+  slice_config_path: /openair-nssf/etc/nssf_slice_config.yaml
+
+dnns:
+  - dnn: "default"
+    pdu_session_type: "IPV4"
+    ipv4_subnet: "12.1.1.0/24"

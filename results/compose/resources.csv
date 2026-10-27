@@ -1,0 +1,11 @@
+nf,idle_cpu_pct,idle_mem_mib,load_cpu_pct,load_mem_mib
+oai-nrf,3.79,2.8,2.19,3.0
+oai-amf,1.13,11.3,0.99,9.7
+oai-smf,1.17,13.6,1.06,12.1
+oai-upf,0.53,6.4,100.39,6.3
+oai-ausf,3.67,3.1,2.09,3.4
+oai-udm,3.55,4.1,2.0,4.1
+oai-udr,3.64,9.7,2.08,10.6
+oai-pcf,3.59,5.7,2.04,5.7
+oai-nssf,0.81,1.9,1.12,1.9
+mysql,2.29,200.6,2.2,201.3

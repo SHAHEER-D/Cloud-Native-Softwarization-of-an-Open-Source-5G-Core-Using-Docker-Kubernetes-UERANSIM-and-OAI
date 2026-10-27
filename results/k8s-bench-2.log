@@ -1,0 +1,147 @@
+[04:56:24] k8s: load ...
+{
+ "1": {
+  "ues": 1,
+  "sessions_up": 1,
+  "success_rate": 1.0,
+  "timed_ues": 1,
+  "all_up_s": 0.25,
+  "per_ue_attach_ms": {
+   "n": 1,
+   "mean": 251.0,
+   "median": 251.0,
+   "stdev": 0.0,
+   "min": 251.0,
+   "p95": 251.0,
+   "max": 251.0
+  },
+  "amf_cpu_peak": 0.02,
+  "smf_cpu_peak": 0.0,
+  "timed_out": false
+ },
+ "10": {
+  "ues": 10,
+  "sessions_up": 10,
+  "success_rate": 1.0,
+  "timed_ues": 10,
+  "all_up_s": 2.66,
+  "per_ue_attach_ms": {
+   "n": 10,
+   "mean": 220.2,
+   "median": 234.0,
+   "stdev": 61.59,
+   "min": 124.0,
+   "p95": 295.0,
+   "max": 295.0
+  },
+  "amf_cpu_peak": 3.64,
+  "smf_cpu_peak": 3.09,
+  "timed_out": false
+ },
+ "25": {
+  "ues": 25,
+  "sessions_up": 25,
+  "success_rate": 1.0,
+  "timed_ues": 25,
+  "all_up_s": 2.69,
+  "per_ue_attach_ms": {
+   "n": 25,
+   "mean": 510.4,
+   "median": 578.0,
+   "stdev": 189.81,
+   "min": 148.0,
+   "p95": 686.0,
+   "max": 693.0
+  },
+  "amf_cpu_peak": 13.96,
+  "smf_cpu_peak": 14.49,
+  "timed_out": false
+ },
+ "50": {
+  "ues": 50,
+  "sessions_up": 50,
+  "success_rate": 1.0,
+  "timed_ues": 50,
+  "all_up_s": 2.74,
+  "per_ue_attach_ms": {
+   "n": 50,
+   "mean": 1141.14,
+   "median": 1201.5,
+   "stdev": 369.59,
+   "min": 186.0,
+   "p95": 1477.0,
+   "max": 1509.0
+  },
+  "amf_cpu_peak": 33.49,
+  "smf_cpu_peak": 25.13,
+  "timed_out": false
+ },
+ "100": {
+  "ues": 100,
+  "sessions_up": 100,
+  "success_rate": 1.0,
+  "timed_ues": 100,
+  "all_up_s": 4.04,
+  "per_ue_attach_ms": {
+   "n": 100,
+   "mean": 3101.76,
+   "median": 3375.0,
+   "stdev": 605.63,
+   "min": 1453.0,
+   "p95": 3556.0,
+   "max": 3579.0
+  },
+  "amf_cpu_peak": 42.49,
+  "smf_cpu_peak": 45.0,
+  "timed_out": false
+ },
+ "_duration_s": 91.3
+}
+[04:57:55] k8s: resources ...
+{
+ "idle_total_cpu_pct": 21.8,
+ "idle_total_mem_mib": 266.7,
+ "load_total_cpu_pct": 110.6,
+ "load_total_mem_mib": 266.9,
+ "_duration_s": 26.1
+}
+[04:58:22] k8s: stale ...
+{
+ "0": {
+  "n": 2,
+  "mean": 3.04,
+  "median": 3.04,
+  "stdev": 0.01,
+  "min": 3.03,
+  "p95": 3.05,
+  "max": 3.05
+ },
+ "25": {
+  "n": 2,
+  "mean": 28.84,
+  "median": 28.84,
+  "stdev": 0.12,
+  "min": 28.75,
+  "p95": 28.93,
+  "max": 28.93
+ },
+ "50": {
+  "n": 2,
+  "mean": 52.42,
+  "median": 52.42,
+  "stdev": 0.93,
+  "min": 51.76,
+  "p95": 53.08,
+  "max": 53.08
+ },
+ "100": {
+  "n": 2,
+  "mean": 102.47,
+  "median": 102.47,
+  "stdev": 0.11,
+  "min": 102.4,
+  "p95": 102.54,
+  "max": 102.54
+ },
+ "_duration_s": 1366.8
+}

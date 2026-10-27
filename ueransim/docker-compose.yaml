@@ -1,0 +1,35 @@
+# UERANSIM gNB and UE(s) attached to the core network (start the core first).
+#   NUM_UE=1 docker compose -f ueransim/docker-compose.yaml up -d --build
+services:
+  ueransim-gnb:
+    container_name: ueransim-gnb
+    build: .
+    image: testbed/ueransim:v3.3.0
+    command: ["nr-gnb", "-c", "/conf/gnb.yaml"]
+    volumes:
+      - ./gnb.yaml:/conf/gnb.yaml:ro
+    cap_add: [NET_ADMIN]
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.141
+
+  ueransim-ue:
+    container_name: ueransim-ue
+    image: testbed/ueransim:v3.3.0
+    command: ["sh", "-c", "sleep 2; exec nr-ue -c /conf/ue.yaml -n ${NUM_UE:-1}"]
+    volumes:
+      - ./ue.yaml:/conf/ue.yaml:ro
+    cap_add: [NET_ADMIN]
+    devices:
+      - /dev/net/tun
+    pids_limit: 32768          # same task limit as the kind nodes (UERANSIM: ~36 threads per UE)
+    depends_on:
+      - ueransim-gnb
+    networks:
+      public_net:
+        ipv4_address: 192.168.70.142
+
+networks:
+  public_net:
+    name: demo-oai-public-net
+    external: true

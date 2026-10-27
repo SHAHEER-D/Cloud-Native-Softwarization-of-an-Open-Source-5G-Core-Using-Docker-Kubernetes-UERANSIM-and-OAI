@@ -1,0 +1,13 @@
+nf,rep,restart_detected_s,ready_s,service_restored_s
+oai-amf,0,0.13,5.73,9.11
+oai-amf,1,0.12,5.67,9.11
+oai-amf,2,0.12,5.71,9.08
+oai-smf,0,0.13,5.71,8.54
+oai-smf,1,0.12,5.75,8.59
+oai-smf,2,0.13,5.75,8.62
+oai-upf,0,0.14,3.71,8.66
+oai-upf,1,0.14,3.72,8.67
+oai-upf,2,0.14,3.7,23.26
+oai-nrf,0,0.12,5.73,8.58
+oai-nrf,1,0.12,5.71,8.59
+oai-nrf,2,0.13,5.76,10.15

@@ -1,0 +1,7 @@
+default-rule:
+  flowInfos:
+    - flowDescription: permit out ip from any to assigned
+      packetFilterUsage: true
+  precedence: 10
+  refQosData:
+    - non-gbr-qos-5qi-9

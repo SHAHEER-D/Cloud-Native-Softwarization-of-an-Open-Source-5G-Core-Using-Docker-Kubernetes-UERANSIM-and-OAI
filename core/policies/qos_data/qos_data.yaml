@@ -1,0 +1,7 @@
+non-gbr-qos-5qi-9:
+  5qi: 9
+  arp:
+    priorityLevel: 7
+    preemptCap: NOT_PREEMPT
+    preemptVuln: PREEMPTABLE
+  priorityLevel: 90

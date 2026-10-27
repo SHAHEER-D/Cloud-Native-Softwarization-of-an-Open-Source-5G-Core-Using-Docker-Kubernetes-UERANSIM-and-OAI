@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oai-config
+data:
+  config.yaml: |-
+{{ .Files.Get "files/config.yaml" | indent 4 }}
+  nssf_slice_config.yaml: |-
+{{ .Files.Get "files/nssf_slice_config.yaml" | indent 4 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oai-pcf-policies
+data:
+{{- range $path, $_ := .Files.Glob "files/policies/*/*.yaml" }}
+  {{ $path | trimPrefix "files/policies/" | replace "/" "__" }}: |-
+{{ $.Files.Get $path | indent 4 }}
+{{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oai-db
+data:
+  oai_db.sql: |-
+{{ .Files.Get "files/oai_db.sql" | indent 4 }}
+  mysql-healthcheck.sh: |-
+{{ .Files.Get "files/mysql-healthcheck.sh" | indent 4 }}

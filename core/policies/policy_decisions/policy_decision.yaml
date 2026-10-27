@@ -1,0 +1,17 @@
+# PCF local policy decisions: every UE on slice 222/00007B, DNN "default" gets the default rule.
+decision_slice:
+  slice:
+    sst: 222
+    sd: "00007B"
+  pcc_rules:
+    - default-rule
+
+decision_dnn:
+  dnn: default
+  pcc_rules:
+    - default-rule
+
+decision_default:
+  default: true
+  pcc_rules:
+    - default-rule
