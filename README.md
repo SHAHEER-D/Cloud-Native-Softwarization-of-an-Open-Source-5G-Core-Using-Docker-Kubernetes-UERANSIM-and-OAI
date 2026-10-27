@@ -295,6 +295,10 @@ xychart-beta
 |---|---|---|---|---|
 | 1799 / 1799 | 0 % | 22.2 / 35.8 ms | 0 | 6 / 6 (26–40 Mbit/s) |
 
+**Long run:** in a later run the same gNB and NR-UE containers (attached to the RIC) stayed up for
+**5 h 51 min with 0 restarts** of any core, RAN or RIC container; a final check found 300/300 pings answered
+(RTT median 15.8 ms, p95 22.6 ms) and 34.7 Mbit/s TCP downlink. Raw data: [`results/rfsim-longrun/`](results/rfsim-longrun/).
+
 **FlexRIC near-RT RIC over E2:** the gNB exposes 9 RAN functions. With exactly **10.0 Mbit/s** of injected
 downlink traffic, the RIC-measured MAC throughput was **10.39 Mbit/s** (the extra 3.9 % is protocol overhead).
 

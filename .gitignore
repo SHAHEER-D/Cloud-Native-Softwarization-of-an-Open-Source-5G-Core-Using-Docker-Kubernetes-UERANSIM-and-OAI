@@ -20,6 +20,7 @@
 !/results/compose/
 !/results/k8s/
 !/results/rfsim-soak/
+!/results/rfsim-longrun/
 !/results/oran/
 /results/oran/ric_l2_summary.json
 /results/oran/xapp_kpm.log

@@ -1,0 +1,6 @@
+/oai-gnb status=running restarts=0 started=2026-10-27T00:42:44.231837312Z image=oaisoftwarealliance/oai-gnb:2026.w43
+/oai-nr-ue status=running restarts=0 started=2026-10-27T00:42:49.912762673Z image=oaisoftwarealliance/oai-nr-ue:2026.w43
+/oai-flexric status=running restarts=0 started=2026-10-27T00:42:40.580910545Z image=oaisoftwarealliance/oai-flexric:develop
+/oai-amf status=running restarts=0 started=2026-10-27T00:39:49.669539542Z image=testbed/oai-amf:v2.2.1-fix
+/oai-smf status=running restarts=0 started=2026-10-27T00:39:59.195211413Z image=oaisoftwarealliance/oai-smf:v2.2.1
+/oai-upf status=running restarts=0 started=2026-10-27T00:39:55.372113744Z image=oaisoftwarealliance/oai-upf:v2.2.1
