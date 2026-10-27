@@ -311,13 +311,16 @@ downlink traffic, the RIC-measured MAC throughput was **10.39 Mbit/s** (the extr
 <details>
 <summary><b>Estimated monthly cloud cost of a minimum 3-node cluster</b></summary>
 
-| Provider | Instances | Total (US$/month) |
-|---|---|---:|
-| AWS | 3 × t3.medium | 169.70 |
-| Azure | 3 × B2ms | 203.74 |
-| GCP | 3 × e2-medium | 149.18 (76.18 with free-tier credit) |
-| OCI | Ampere A1 Flex | 30.80 (0 within Always Free) |
-| OpenStack | self-hosted | 0 recurring (hardware/energy not included) |
+| Provider | Instances | Compute | Storage (70 GiB SSD) | Kubernetes fee | Total (US$/month) |
+|---|---|---:|---:|---:|---:|
+| AWS | 3 × t3.medium | 91.10 | 5.60 | 73.00 | 169.70 |
+| Azure | 3 × B2ms | 182.21 | 7.20 | 0.00 (AKS Free) | 189.41 |
+| GCP | 3 × e2-medium | 73.38 | 7.00 | 73.00 | 153.38 (80.38 with free-tier credit) |
+| OCI | Ampere A1, 6 cores / 12 GB | 56.94 | 2.98 | 0.00 (OKE basic) | 59.92 (13.80 after Always Free) |
+| OpenStack | self-hosted | 0 | 0 | 0 | 0 recurring (hardware/energy not included) |
+
+On-demand Linux list prices in a US region, retrieved on 2026-10-27 from the AWS price data, the Azure Retail
+Prices API, the Google Cloud pricing pages and the Oracle price list API; 730 h per month.
 
 </details>
 
