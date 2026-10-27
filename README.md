@@ -1,6 +1,6 @@
 <div align="center">
 
-# Cloud-Native Softwarization of an Open-Source 5G Core Using Docker, Kubernetes, UERANSIM, and OAI
+# Performance and Failure Recovery of an Open-Source 5G Core and O-RAN Testbed on Docker Compose and Kubernetes
 
 **A reproducible 5G Standalone + O-RAN testbed that runs on a single laptop.**<br>
 The same OpenAirInterface 5G core is deployed with **Docker Compose** and on a **3-node Kubernetes** cluster,
