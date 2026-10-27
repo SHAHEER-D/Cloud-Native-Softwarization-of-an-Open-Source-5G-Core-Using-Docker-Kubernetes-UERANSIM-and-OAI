@@ -129,7 +129,7 @@ flowchart LR
 <summary><b> 1: Prepare the host (once)</b></summary>
 
 ```bash
-git clone https://github.com/SHAHEER-D/Cloud-Native-Softwarization-of-an-Open-Source-5G-Core-Using-Docker-Kubernetes-UERANSIM-and-OAI..git oai-testbed
+git clone https://github.com/SHAHEER-D/Cloud-Native-Softwarization-of-an-Open-Source-5G-Core-Using-Docker-Kubernetes-UERANSIM-and-OAIgit oai-testbed
 cd oai-testbed
 sudo bash setup-host.sh          # Docker, Compose, SCTP module, IP forwarding, extra swap
 # log out and back in so your user can run docker without sudo
